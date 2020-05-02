@@ -9,7 +9,7 @@ using Moq.Protected;
 using Pethub.Services;
 using Xunit;
 
-namespace PethubTests
+namespace PetHubTests
 {
     public class PetOwnerServiceTest
     {
