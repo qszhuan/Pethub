@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using GraphiQl;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -6,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Pethub.Graphql;
 using Pethub.Services;
 
 namespace Pethub
@@ -37,6 +40,11 @@ namespace Pethub
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            services.AddScoped<PetOwnerQuery>();
+            services.AddScoped<ISchema>(x => new Schema()
+            {
+                Query = x.GetService<PetOwnerQuery>()
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +64,8 @@ namespace Pethub
             {
                 app.UseSpaStaticFiles();
             }
+
+            app.UseGraphiQl();
 
             app.UseRouting();
 
