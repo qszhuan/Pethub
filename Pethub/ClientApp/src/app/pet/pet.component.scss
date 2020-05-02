@@ -1,0 +1,15 @@
+.title {
+  margin-bottom: 20px
+}
+
+.gender {
+  font-weight: bold
+}
+
+.pet {
+  &:hover{
+    margin: 5px 0 0 2px;
+    background-color: lightcyan;
+    font-weight:bold;
+  }
+}
