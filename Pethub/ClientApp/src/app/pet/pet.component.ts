@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { GroupedPet } from "../interfaces/GroupedPet";
 
 @Component({
   selector: 'app-pet',
@@ -17,12 +18,3 @@ export class PetComponent {
 
 }
 
-interface GroupedPet {
-  key: string,
-  pets: Pet[]
-}
-
-interface Pet {
-  name: string,
-  type: string
-}

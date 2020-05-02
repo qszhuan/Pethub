@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed, getTestBed} from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
 import { PetComponent } from './pet.component';
+import {GroupedPet} from  '../interfaces/GroupedPet';
 
 describe('PetComponent', () => {
   let component: PetComponent;
@@ -28,7 +28,6 @@ describe('PetComponent', () => {
   });
 
   it('should create and fetch data', () => {
-    
     const groupedPets = [
       {
         key: 'Male',
@@ -38,7 +37,7 @@ describe('PetComponent', () => {
       }
     ];
 
-    const baseUrl = injector.get('BASE_URL')
+    const baseUrl = injector.get('BASE_URL');
     const req = httpMock.expectOne(`${baseUrl}pets?type=Cat`);
     expect(req.request.method).toBe("GET");
     req.flush(groupedPets);

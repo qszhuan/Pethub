@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PetComponent } from './pet/pet.component';
+import { PetGraphqlComponent } from './pet-graphql/pet-graphql.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { PetComponent } from './pet/pet.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    PetComponent
+    PetComponent,
+    PetGraphqlComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,8 +30,10 @@ import { PetComponent } from './pet/pet.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'pet', component: PetComponent }
-    ])
+      { path: 'pet', component: PetComponent },
+      { path: 'pet-graphql', component: PetGraphqlComponent }
+    ]),
+    GraphQLModule
   ],
   providers: [],
   bootstrap: [AppComponent]

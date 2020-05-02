@@ -1,0 +1,16 @@
+<h1 class="title">pet grouped by owner gender by GraphQL</h1>
+
+
+<p *ngIf="!groupedPets"><em>Loading...</em></p>
+
+<div *ngIf="groupedPets">
+  <div *ngFor="let group of groupedPets">
+    <div class="gender">{{ group.key }}</div>
+    <ul>
+      <li *ngFor="let pet of group.pets" class="pet">
+        {{ pet.name }}
+      </li>
+    </ul>
+  </div>
+
+</div>
