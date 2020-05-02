@@ -1,33 +1,18 @@
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using Moq.Protected;
+using Pethub.Models;
 using Pethub.Services;
 using Xunit;
 
-namespace PetHubTests
+namespace PethubTests
 {
-    public class PetOwnerServiceTest
+    public class PetOwnerServiceTest : TestBase
     {
-        private readonly ServiceProvider _serviceProvider;
-        private readonly Mock<HttpMessageHandler> _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-
         public PetOwnerServiceTest()
         {
-            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
-            httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>()))
-                .Returns(new HttpClient(_httpMessageHandlerMock.Object));
-
-            var serviceCollection = new ServiceCollection();
-            var serviceCollection1 = serviceCollection.AddScoped<IPetOwnerService, PetOwnerService>();
-            serviceCollection1.AddScoped(x => httpClientFactoryMock.Object);
-
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            _serviceCollection.AddScoped<IPetOwnerService, PetOwnerService>();
         }
+
 
         [Theory]
         [InlineData(@"[{'name':'Bob', 'gender':'Male', 'age':23, 'pets':[]}]", 0)]
@@ -37,9 +22,9 @@ namespace PetHubTests
         [InlineData(@"[{'name':'Bob', 'gender':'Female', 'age':23, 'pets':[{'name':'Tom', 'type':'Cat'},{'name':'Fido', 'type':'Dog'}]}]", 2)]
         public void ShouldGetPetOwners(string data, int petCount)
         {
-            SetupData(data);
+            SetupHttpData(data);
             
-            var petOwnerService = _serviceProvider.GetService<IPetOwnerService>();
+            var petOwnerService = GetServiceProvider().GetService<IPetOwnerService>();
             var owners = petOwnerService.GetOwners().Result;
             
             Assert.NotEmpty(owners);
@@ -51,8 +36,8 @@ namespace PetHubTests
         public void ShouldGetPetAnOwner()
         {
             var data = @"[{'name':'Bob', 'gender':'Male', 'age':23, 'pets':[{'name':'Tom', 'type':'Cat'}]}]";
-            SetupData(data);
-            var petOwnerService = _serviceProvider.GetService<IPetOwnerService>();
+            SetupHttpData(data);
+            var petOwnerService = GetServiceProvider().GetService<IPetOwnerService>();
             var owners = petOwnerService.GetOwners().Result;
             
             Assert.NotEmpty(owners);
@@ -69,17 +54,7 @@ namespace PetHubTests
             Assert.Equal(PetType.Cat, cat.Type);
         }
 
-        private void SetupData(string data)
-        {
-            _httpMessageHandlerMock.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(data)
-                });
-        }
+        
     }
 
 }

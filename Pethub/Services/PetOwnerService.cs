@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Pethub.Models;
 
 namespace Pethub.Services
 {
@@ -13,6 +14,7 @@ namespace Pethub.Services
         {
             _httpClientFactory = httpClientFactory;
         }
+
         public Task<List<PetOwner>> GetOwners()
         {
             var httpClient = _httpClientFactory.CreateClient();
