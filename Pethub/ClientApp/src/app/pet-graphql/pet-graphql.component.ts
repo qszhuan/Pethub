@@ -13,9 +13,7 @@ export class PetGraphqlComponent implements OnInit {
   constructor(private apollo: Apollo) { }
 
   ngOnInit() {
-    this.apollo
-      .watchQuery({
-        query: gql`
+    let query = gql`
           {
             petGroups(key: "Gender") {
               key
@@ -24,7 +22,10 @@ export class PetGraphqlComponent implements OnInit {
               }
             }
           }
-        `,
+        `;
+    this.apollo
+      .watchQuery({
+        query: query,
       })
       .valueChanges.subscribe(result => {
         this.groupedPets = result.data && result.data['petGroups'];

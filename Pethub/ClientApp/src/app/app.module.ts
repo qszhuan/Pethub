@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PetComponent } from './pet/pet.component';
 import { PetGraphqlComponent } from './pet-graphql/pet-graphql.component';
 import { GraphQLModule } from './graphql.module';
@@ -18,8 +16,6 @@ import { GraphQLModule } from './graphql.module';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     PetComponent,
     PetGraphqlComponent
   ],
@@ -29,7 +25,6 @@ import { GraphQLModule } from './graphql.module';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'pet', component: PetComponent },
       { path: 'pet-graphql', component: PetGraphqlComponent }
     ]),
