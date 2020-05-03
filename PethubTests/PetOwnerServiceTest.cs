@@ -1,5 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Pethub.Models;
 using Pethub.Services;
 using Xunit;
@@ -11,6 +15,19 @@ namespace PethubTests
         public PetOwnerServiceTest()
         {
             _serviceCollection.AddScoped<IPetOwnerService, PetOwnerService>();
+            _serviceCollection.AddScoped(x=>new Mock<ILogger<PetOwnerService>>().Object);
+            _serviceCollection.AddScoped<IConfiguration>(x=>
+            {
+                var myConfiguration = new Dictionary<string, string>
+                {
+                    {"PeopleApi", "http://localhost:5000"}
+                };
+
+                var configuration = new ConfigurationBuilder()
+                    .AddInMemoryCollection(myConfiguration)
+                    .Build();
+                return configuration;
+            });
         }
 
 
