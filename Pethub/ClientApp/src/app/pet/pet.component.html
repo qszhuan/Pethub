@@ -1,7 +1,8 @@
 <h1 class="title">pet grouped by owner gender</h1>
 
+<p class="error" *ngIf="errorMessage"> Error happened when loading data.</p>
 
-<p *ngIf="!groupedPets"><em>Loading...</em></p>
+<p *ngIf="!groupedPets &&!errorMessage"><em>Loading...</em></p>
 
 <div *ngIf="groupedPets">
   <div *ngFor="let group of groupedPets">

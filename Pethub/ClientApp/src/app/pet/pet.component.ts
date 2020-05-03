@@ -8,12 +8,16 @@ import { GroupedPet } from "../interfaces/GroupedPet";
   styleUrls: ['./pet.component.scss']
 })
 export class PetComponent {
-  public groupedPets: GroupedPet[];
+  groupedPets: GroupedPet[];
+  errorMessage: string;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     http.get<GroupedPet[]>(baseUrl + 'pets', { params: { type: 'Cat' }}).subscribe(result => {
       this.groupedPets = result;
-    }, error => console.error(error));
+    }, error => {
+        this.errorMessage = error;
+
+    });
   }
 
 }
